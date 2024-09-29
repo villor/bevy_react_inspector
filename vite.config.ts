@@ -8,6 +8,14 @@ export default defineConfig({
   build: {
     target: 'esnext',
   },
+  server: {
+    proxy: {
+      '/brp': {
+        target: 'http://localhost:15702',
+        changeOrigin: true,
+      },
+    },
+  },
   plugins: [
     AutoImport({
       include: [/\.[tj]sx?$/],
@@ -17,7 +25,6 @@ export default defineConfig({
       dirs: [
         'src/components/**',
         'src/hooks/**',
-        'src/models/**',
         'src/utils/**',
       ],
     }),
