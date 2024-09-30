@@ -1,9 +1,10 @@
 import type { NodeApi, NodeRendererProps } from 'react-arborist';
 import type { EcsQueryEntity } from './hooks/useEcsQuery';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AppWindow, Box, ChevronDown, ChevronRight, Circle, Image, Lightbulb, Move3D, SquareMousePointer, Type, Video } from 'lucide-react';
+import { AppWindow, Box, ChevronDown, ChevronRight, Circle, Image, Lightbulb, MousePointer, Move3D, SquareMousePointer, Type, Video } from 'lucide-react';
 import { Tree } from 'react-arborist';
 import { bevyTypes } from './bevyTypes';
+import { useComponentList } from './hooks/useComponentList';
 
 const queryClient = new QueryClient();
 
@@ -57,7 +58,9 @@ function Inspector() {
         bevyTypes.Sprite,
         bevyTypes.Text,
         bevyTypes.Transform,
+        bevyTypes.PrimaryWindow,
         bevyTypes.Window,
+        bevyTypes.PointerId,
       ],
     },
   });
@@ -106,8 +109,10 @@ function Inspector() {
               )}
             </FillFlexParent>
           </div>
-          <div className="rounded-md bg-ui-2 p-3 md:flex-1">
-            <h1 className="text-ui-5/50">Component inspector goes here</h1>
+          <div className="flex-1 rounded-md bg-ui-2 p-3">
+            {selectedEntity
+              ? <EntityInspector entity={selectedEntity} />
+              : <p>Select an entity to view its components...</p>}
           </div>
         </div>
       </div>
@@ -169,10 +174,14 @@ function EntityIcon({ entity, className }: { entity: TreeEntity; className?: str
       return <Box color="#a156d6" className={className} size={size} />;
 
     case 'Sprite':
-      return <Image className={className} size={size} />;
+      return <Image color="#a156d6" className={className} size={size} />;
 
+    case 'PrimaryWindow':
     case 'Window':
       return <AppWindow className={className} size={size} />;
+
+    case 'Pointer':
+      return <MousePointer className={className} size={size} />;
 
     case 'Transform':
       return <Move3D color="#5796e8" className={className} size={size} />;
@@ -199,12 +208,29 @@ function getEntityType(has?: Record<string, boolean> | null) {
       return 'SpotLight';
     if (has[bevyTypes.Sprite])
       return 'Sprite';
+    if (has[bevyTypes.PrimaryWindow])
+      return 'PrimaryWindow';
     if (has[bevyTypes.Window])
       return 'Window';
+    if (has[bevyTypes.PointerId])
+      return 'Pointer';
     if (has[bevyTypes.Transform])
       return 'Transform';
   }
   return 'Entity';
+}
+
+function EntityInspector({ entity }: { entity: string | number }) {
+  const { data, isLoading } = useComponentList({ entity });
+
+  if (isLoading)
+    return <div>Loading...</div>;
+
+  return (
+    <div>
+      {(data ?? []).map(component => <div key={component}>{component}</div>)}
+    </div>
+  );
 }
 
 export default App;
