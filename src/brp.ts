@@ -1,4 +1,4 @@
-export const DEFAULT_URL = import.meta.env.DEV ? '/brp' : 'http://localhost:15702';
+export const DEFAULT_URL = import.meta.env.DEV ? '/brp' : 'http://localhost:15703';
 
 export async function callBrp<TResult = any>(url: string, method: string, params: any) {
   const response = await fetch(url, {
