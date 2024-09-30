@@ -14,7 +14,7 @@ export async function callBrp<TResult = any>(url: string, method: string, params
 
   if (!response.ok || data.error) {
     console.error('Request failed', response.status, data.error);
-    throw new Error('Request failed');
+    throw new Error(`${data.error.code}: ${data.error.message}`);
   }
 
   return data.result as TResult;

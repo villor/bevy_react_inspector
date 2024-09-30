@@ -6,7 +6,13 @@ import { Tree } from 'react-arborist';
 import { bevyTypes } from './bevyTypes';
 import { useComponentList } from './hooks/useComponentList';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
 
 function App() {
   return (
@@ -85,7 +91,7 @@ function Inspector() {
         <div className="rounded-md bg-ui-2 p-3">
           <h1 className="text-ui-5/50">Toolbar goes here</h1>
         </div>
-        <div className="flex flex-1 flex-col gap-3 md:flex-row">
+        <div className="flex min-h-0 flex-1 flex-col gap-3 md:flex-row">
           <div className="flex flex-1 overflow-auto rounded-md bg-ui-2 p-3 md:w-96 md:flex-initial">
             <FillFlexParent>
               {({ width, height }) => (
@@ -109,7 +115,7 @@ function Inspector() {
               )}
             </FillFlexParent>
           </div>
-          <div className="flex-1 rounded-md bg-ui-2 p-3">
+          <div className="flex-1 overflow-y-auto overflow-x-hidden rounded-md bg-ui-2 p-3">
             {selectedEntity
               ? <EntityInspector entity={selectedEntity} />
               : <p>Select an entity to view its components...</p>}
@@ -227,9 +233,94 @@ function EntityInspector({ entity }: { entity: string | number }) {
     return <div>Loading...</div>;
 
   return (
-    <div>
-      {(data ?? []).map(component => <div key={component}>{component}</div>)}
+    <div className="space-y-3">
+      {(data ?? []).map(component => (
+        <EntityComponent
+          key={component}
+          entity={entity}
+          path={component}
+        />
+      ))}
     </div>
+  );
+}
+
+function EntityComponent({ entity, path }: { entity: string | number; path: string }) {
+  const [expanded, setExpanded] = useState(false);
+
+  // TODO: Better parsing
+  const shortName = path.endsWith('>') || path.endsWith('::')
+    ? path
+    : path.substring(path.lastIndexOf('::') + 2);
+
+  return (
+    <div className="space-y-2 rounded-md bg-ui-3 p-2">
+      <div className="flex gap-2">
+        <div className="shrink-0">
+          {expanded ? <ChevronDown onClick={() => setExpanded(false)} /> : <ChevronRight onClick={() => setExpanded(true)} />}
+        </div>
+        <div className="overflow-hidden">
+          <div className="truncate">{shortName}</div>
+          <div className="truncate text-xs text-ui-5/50" title={path}>{path}</div>
+        </div>
+      </div>
+      {expanded && <ComponentData entity={entity} path={path} />}
+    </div>
+  );
+}
+
+function ComponentData({ entity, path }: { entity: string | number; path: string }) {
+  const { data, isLoading, error } = useComponentData({ entity, components: [path] });
+
+  return (
+    <div className="rounded-md bg-ui-2 p-2">
+      <div className="overflow-x-auto pb-3 text-sm">
+        {error
+          ? <span className="text-red-500">{error.message}</span>
+          : (isLoading
+              ? 'Loading...'
+              : (
+                  // eslint-disable-next-line react-dom/no-dangerously-set-innerhtml
+                  <pre
+                    dangerouslySetInnerHTML={{
+                      __html: syntaxHighlight(JSON.stringify(data, undefined, 2)),
+                    }}
+                  >
+                  </pre>
+                ))}
+      </div>
+    </div>
+  );
+}
+
+function syntaxHighlight(json: string) {
+  if (!json)
+    return ''; // no JSON from response
+
+  json = json
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  return json.replace(
+    /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+    (match) => {
+      let cls = 'text-blue-600';
+      if (match.startsWith('"')) {
+        if (match.endsWith(':')) {
+          cls = 'text-blue-300';
+        }
+        else {
+          cls = 'text-orange-300';
+        }
+      }
+      else if (/true|false/.test(match)) {
+        cls = 'text-blue-600';
+      }
+      else if (/null/.test(match)) {
+        cls = 'text-blue-500';
+      }
+      return `<span class="${cls}">${match}</span>`;
+    },
   );
 }
 
