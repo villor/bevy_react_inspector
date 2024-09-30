@@ -1,50 +1,25 @@
-# React + TypeScript + Vite
+# bevy_react_inspector
+A small [web based inspector](https://villor.github.io/bevy_react_inspector/) for bevy (using BRP) written in React.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+NOTE: This currently works only on bevys `main` branch since BRP is not yet released.
 
-Currently, two official plugins are available:
+## Usage
+Set up your Bevy app as a BRP server, see [example](https://github.com/bevyengine/bevy/blob/main/examples/remote/server.rs).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application expects BRP to be available at `http://localhost:15703`. (custom url/port is coming).
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+Since BRP doesn't allow any origin by default, install Node and run the following to start a local proxy:
+```
+npx local-cors-proxy --proxyUrl http://localhost:15702 --port 15703 --proxyPartial /
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+[Open](https://villor.github.io/bevy_react_inspector/) the inspector and enjoy!
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react';
+## Development
+1. Install NodeJS (latest LTS should be fine)
+2. Clone this repo
+3. `npm install`
+4. `npm run dev`
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-});
-```
+## License
+MIT
