@@ -92,12 +92,11 @@ function Inspector() {
           <h1 className="text-ui-5/50">Toolbar goes here</h1>
         </div>
         <div className="flex min-h-0 flex-1 flex-col gap-3 md:flex-row">
-          <div className="flex flex-1 overflow-auto rounded-md bg-ui-2 p-3 md:w-96 md:flex-initial">
+          <div className="flex flex-1 select-none overflow-auto rounded-md bg-ui-2 p-3 md:w-96 md:flex-initial">
             <FillFlexParent>
-              {({ width, height }) => (
+              {({ height }) => (
                 <Tree
                   data={entities}
-                  width={width}
                   height={height}
                   padding={15}
                   rowHeight={30}
