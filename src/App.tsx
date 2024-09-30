@@ -283,7 +283,7 @@ function ComponentData({ entity, path }: { entity: string | number; path: string
                   // eslint-disable-next-line react-dom/no-dangerously-set-innerhtml
                   <pre
                     dangerouslySetInnerHTML={{
-                      __html: syntaxHighlight(JSON.stringify(data, undefined, 2)),
+                      __html: syntaxHighlight(JSON.stringify(data?.[path], undefined, 2)),
                     }}
                   >
                   </pre>
