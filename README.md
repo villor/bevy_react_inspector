@@ -3,6 +3,8 @@ A small [web based inspector](https://villor.github.io/bevy_react_inspector/) fo
 
 NOTE: This currently works only on bevys `main` branch since BRP is not yet released.
 
+![image](https://github.com/user-attachments/assets/b0d8772b-3fbc-4b46-ad7e-c1f2640792df)
+
 ## Usage
 Set up your Bevy app as a BRP server, see [example](https://github.com/bevyengine/bevy/blob/main/examples/remote/server.rs).
 
