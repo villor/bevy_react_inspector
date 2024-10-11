@@ -6,6 +6,11 @@ export interface ComponentDataParams {
   components: string[];
 }
 
+export interface ComponentDataResult {
+  components: Record<string, any>;
+  errors: Record<string, string>;
+}
+
 export const COMPONENT_DATA_KEY = 'COMPONENT_DATA';
 
 export function useComponentData(params: ComponentDataParams) {
@@ -16,6 +21,6 @@ export function useComponentData(params: ComponentDataParams) {
   };
   return useQuery({
     queryKey: [COMPONENT_DATA_KEY, url, param],
-    queryFn: () => callBrp<Record<string, any>>(url, 'bevy/get', param),
+    queryFn: () => callBrp<ComponentDataResult>(url, 'bevy/get', param),
   });
 }

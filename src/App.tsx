@@ -286,18 +286,23 @@ function EntityComponent({ entity, path }: { entity: string | number; path: stri
 function ComponentData({ entity, path }: { entity: string | number; path: string }) {
   const { data, isLoading, error } = useComponentData({ entity, components: [path] });
 
+  const errorMessage = error?.message
+    ?? ((data !== undefined && data.components[path] === undefined)
+      ? data.errors[path]
+      : undefined);
+
   return (
     <div className="rounded-md bg-ui-2 p-2">
       <div className="overflow-x-auto pb-3 text-sm">
-        {error
-          ? <span className="text-red-500">{error.message}</span>
+        {errorMessage
+          ? <pre className="text-red-500">{JSON.stringify(errorMessage, undefined, 2)}</pre>
           : (isLoading
               ? 'Loading...'
               : (
                   // eslint-disable-next-line react-dom/no-dangerously-set-innerhtml
                   <pre
                     dangerouslySetInnerHTML={{
-                      __html: syntaxHighlight(JSON.stringify(data?.[path], undefined, 2)),
+                      __html: syntaxHighlight(JSON.stringify(data?.components[path], undefined, 2)),
                     }}
                   >
                   </pre>
