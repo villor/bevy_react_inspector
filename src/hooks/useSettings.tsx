@@ -1,6 +1,6 @@
 import { createContext, type PropsWithChildren } from 'react';
 
-const DEFAULT_URL = import.meta.env.DEV ? 'http://localhost:15702' : 'http://localhost:15703';
+const DEFAULT_URL = import.meta.env.DEV ? '/brp' : 'http://localhost:15702';
 
 function useSettingsContext() {
   const [url, setUrlInternal] = useState(DEFAULT_URL);
