@@ -8,11 +8,13 @@ NOTE: This currently works only on bevys `main` branch since BRP is not yet rele
 ## Usage
 Set up your Bevy app as a BRP server, see [example](https://github.com/bevyengine/bevy/blob/main/examples/remote/server.rs).
 
-The application expects BRP to be available at `http://localhost:15703`. (custom url/port is coming).
+Since BRP doesn't allow any origin by default, add a CORS header to allow the browser to access it:
 
-Since BRP doesn't allow any origin by default, install Node and run the following to start a local proxy:
-```
-npx local-cors-proxy --proxyUrl http://localhost:15702 --port 15703 --proxyPartial /
+```rust
+app.add_plugins(
+    RemoteHttpPlugin::default()
+        .with_header("Access-Control-Allow-Origin", "https://villor.github.io"),
+)
 ```
 
 [Open](https://villor.github.io/bevy_react_inspector/) the inspector and enjoy!
