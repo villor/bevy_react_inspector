@@ -16,9 +16,20 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Inspector />
-    </QueryClientProvider>
+    <SettingsProvider>
+      <QueryClientProvider client={queryClient}>
+        <Inspector />
+      </QueryClientProvider>
+    </SettingsProvider>
+  );
+}
+
+function Toolbar() {
+  const { url, setUrl } = useSettings();
+  return (
+    <div className="rounded-md bg-ui-2 p-3">
+      <ConfirmInput value={url} onConfirm={url => setUrl(url?.toString())} className="md:max-w-80" />
+    </div>
   );
 }
 
@@ -88,9 +99,7 @@ function Inspector() {
   return (
     <div className="h-screen overflow-hidden p-3">
       <div className="flex h-full flex-col gap-3 overflow-hidden">
-        <div className="rounded-md bg-ui-2 p-3">
-          <h1 className="text-ui-5/50">Toolbar goes here</h1>
-        </div>
+        <Toolbar />
         <div className="flex min-h-0 flex-1 flex-col gap-3 md:flex-row">
           <div className="flex flex-1 select-none overflow-auto rounded-md bg-ui-2 p-3 md:w-96 md:flex-initial">
             <FillFlexParent>

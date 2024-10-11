@@ -1,4 +1,4 @@
-import { callBrp, DEFAULT_URL } from '@/brp';
+import { callBrp } from '@/brp';
 import { useQuery } from '@tanstack/react-query';
 
 export interface ComponentListParams {
@@ -8,13 +8,14 @@ export interface ComponentListParams {
 export const COMPONENT_LIST_KEY = 'COMPONENT_LIST';
 
 export function useComponentList(params?: ComponentListParams) {
+  const { url } = useSettings();
   const param = params?.entity
     ? {
         entity: Number(params.entity),
       }
     : null;
   return useQuery({
-    queryKey: [COMPONENT_LIST_KEY, param],
-    queryFn: () => callBrp<string[]>(DEFAULT_URL, 'bevy/list', param),
+    queryKey: [COMPONENT_LIST_KEY, url, param],
+    queryFn: () => callBrp<string[]>(url, 'bevy/list', param),
   });
 }

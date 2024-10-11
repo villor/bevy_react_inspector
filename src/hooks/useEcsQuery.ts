@@ -1,4 +1,4 @@
-import { callBrp, DEFAULT_URL } from '@/brp';
+import { callBrp } from '@/brp';
 import { useQuery } from '@tanstack/react-query';
 
 export interface EcsQueryParams {
@@ -22,9 +22,10 @@ export interface EcsQueryEntity {
 export const ECS_QUERY_KEY = 'ECS_QUERY';
 
 export function useEcsQuery(params?: EcsQueryParams) {
+  const { url } = useSettings();
   return useQuery({
-    queryKey: [ECS_QUERY_KEY, params],
-    queryFn: () => callBrp<EcsQueryEntity[]>(DEFAULT_URL, 'bevy/query', {
+    queryKey: [ECS_QUERY_KEY, url, params],
+    queryFn: () => callBrp<EcsQueryEntity[]>(url, 'bevy/query', {
       data: {},
       ...params,
     }),

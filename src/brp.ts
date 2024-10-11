@@ -1,5 +1,3 @@
-export const DEFAULT_URL = import.meta.env.DEV ? '/brp' : 'http://localhost:15703';
-
 export async function callBrp<TResult = any>(url: string, method: string, params: any) {
   const response = await fetch(url, {
     method: 'POST',
@@ -20,4 +18,4 @@ export async function callBrp<TResult = any>(url: string, method: string, params
   return data.result as TResult;
 }
 
-// callBrp(DEFAULT_URL, 'bevy/list', null).then(result => console.log(result));
+// callBrp('/brp', 'bevy/list', null).then(result => console.log(result));
