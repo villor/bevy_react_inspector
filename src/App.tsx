@@ -1,7 +1,7 @@
 import type { NodeApi, NodeRendererProps } from 'react-arborist';
 import type { EcsQueryEntity } from './hooks/useEcsQuery';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AppWindow, Box, ChevronDown, ChevronRight, Circle, Image, Lightbulb, MousePointer, Move3D, SquareMousePointer, Type, Video } from 'lucide-react';
+import { AppWindow, Box, ChevronDown, ChevronRight, Circle, Image, Lightbulb, MousePointer, Move3D, Square, SquareMousePointer, Type, Video } from 'lucide-react';
 import { Tree } from 'react-arborist';
 import { bevyTypes } from './bevyTypes';
 import { useComponentList } from './hooks/useComponentList';
@@ -68,12 +68,14 @@ function Inspector() {
       has: [
         bevyTypes.Camera,
         bevyTypes.DirectionalLight,
-        bevyTypes.HandleMesh,
+        bevyTypes.Mesh2d,
+        bevyTypes.Mesh3d,
         bevyTypes.Node,
         bevyTypes.PointLight,
         bevyTypes.SpotLight,
         bevyTypes.Sprite,
-        bevyTypes.Text,
+        // bevyTypes.Text,
+        // bevyTypes.Text2d,
         bevyTypes.Transform,
         bevyTypes.PrimaryWindow,
         bevyTypes.Window,
@@ -184,7 +186,9 @@ function EntityIcon({ entity, className }: { entity: TreeEntity; className?: str
     case 'Node':
       return <SquareMousePointer className={className} size={size} />;
 
-    case 'Mesh':
+    case 'Mesh2d':
+      return <Square color="#a156d6" className={className} size={size} />;
+    case 'Mesh3d':
       return <Box color="#a156d6" className={className} size={size} />;
 
     case 'Sprite':
@@ -208,12 +212,14 @@ function getEntityType(has?: Record<string, boolean> | null) {
   if (has) {
     if (has[bevyTypes.Camera])
       return 'Camera';
-    if (has[bevyTypes.Text])
-      return 'Text';
+    // if (has[bevyTypes.Text])
+    //  return 'Text';
     if (has[bevyTypes.Node])
       return 'Node';
-    if (has[bevyTypes.HandleMesh])
-      return 'Mesh';
+    if (has[bevyTypes.Mesh2d])
+      return 'Mesh2d';
+    if (has[bevyTypes.Mesh3d])
+      return 'Mesh3d';
     if (has[bevyTypes.DirectionalLight])
       return 'DirectionalLight';
     if (has[bevyTypes.PointLight])

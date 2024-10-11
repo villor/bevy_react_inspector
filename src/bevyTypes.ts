@@ -17,10 +17,12 @@ export const bevyTypes = {
 
   // bevy_render
   Camera: 'bevy_render::camera::camera::Camera',
-  HandleMesh: 'bevy_asset::handle::Handle<bevy_render::mesh::mesh::Mesh>',
+  Mesh2d: 'bevy_render::mesh::components::Mesh2d',
+  Mesh3d: 'bevy_render::mesh::components::Mesh3d',
 
   // bevy_ui
   Node: 'bevy_ui::ui_node::Node',
+  // Text: 'bevy_ui::widget::Text',
 
   // bevy_window
   Window: 'bevy_window::window::Window',
@@ -29,7 +31,7 @@ export const bevyTypes = {
   PrimaryMonitor: 'bevy_window::monitor::PrimaryMonitor',
 
   // bevy_text
-  Text: 'bevy_text::text::Text',
+  // Text2d: 'bevy_text::Text2d',
 
   // bevy_transform
   Transform: 'bevy_transform::components::transform::Transform',
