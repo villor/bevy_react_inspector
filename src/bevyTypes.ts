@@ -16,7 +16,8 @@ export const bevyTypes = {
   SpotLight: 'bevy_pbr::light::spot_light::SpotLight',
 
   // bevy_render
-  Camera: 'bevy_render::camera::camera::Camera',
+  Camera2d: 'bevy_core_pipeline::core_2d::camera_2d::Camera2d',
+  Camera3d: 'bevy_core_pipeline::core_3d::camera_3d::Camera3d',
   Mesh2d: 'bevy_render::mesh::components::Mesh2d',
   Mesh3d: 'bevy_render::mesh::components::Mesh3d',
 

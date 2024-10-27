@@ -66,7 +66,8 @@ function Inspector() {
         bevyTypes.Name,
       ],
       has: [
-        bevyTypes.Camera,
+        bevyTypes.Camera2d,
+        bevyTypes.Camera3d,
         bevyTypes.DirectionalLight,
         bevyTypes.Mesh2d,
         bevyTypes.Mesh3d,
@@ -175,7 +176,8 @@ function FolderArrow({ node }: { node: NodeApi<TreeEntity> }) {
 function EntityIcon({ entity, className }: { entity: TreeEntity; className?: string }) {
   const size = 16;
   switch (entity.type) {
-    case 'Camera':
+    case 'Camera2d':
+    case 'Camera3d':
       return <Video className={className} size={size} />;
 
     case 'DirectionalLight':
@@ -221,8 +223,10 @@ function EntityIcon({ entity, className }: { entity: TreeEntity; className?: str
 
 function getEntityType(has?: Record<string, boolean> | null) {
   if (has) {
-    if (has[bevyTypes.Camera])
-      return 'Camera';
+    if (has[bevyTypes.Camera2d])
+      return 'Camera2d';
+    if (has[bevyTypes.Camera3d])
+      return 'Camera3d';
     if (has[bevyTypes.Button])
       return 'Button';
     if (has[bevyTypes.UiImage])
