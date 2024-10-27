@@ -34,7 +34,7 @@ export const bevyTypes = {
   PrimaryMonitor: 'bevy_window::monitor::PrimaryMonitor',
 
   // bevy_text
-  // Text2d: 'bevy_text::Text2d',
+  TextSpan: 'bevy_text::text::TextSpan',
 
   // bevy_transform
   Transform: 'bevy_transform::components::transform::Transform',

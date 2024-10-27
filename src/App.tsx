@@ -78,7 +78,7 @@ function Inspector() {
         bevyTypes.Label,
         bevyTypes.UiImage,
         bevyTypes.Text,
-        // bevyTypes.Text2d,
+        bevyTypes.TextSpan,
         bevyTypes.Transform,
         bevyTypes.PrimaryWindow,
         bevyTypes.Window,
@@ -185,6 +185,7 @@ function EntityIcon({ entity, className }: { entity: TreeEntity; className?: str
 
     case 'Label':
     case 'Text':
+    case 'TextSpan':
       return <Type className={className} size={size} />;
 
     case 'Button':
@@ -232,6 +233,8 @@ function getEntityType(has?: Record<string, boolean> | null) {
       return 'Text';
     if (has[bevyTypes.Node])
       return 'Node';
+    if (has[bevyTypes.TextSpan])
+      return 'TextSpan';
     if (has[bevyTypes.Mesh2d])
       return 'Mesh2d';
     if (has[bevyTypes.Mesh3d])
