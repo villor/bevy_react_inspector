@@ -22,7 +22,10 @@ export const bevyTypes = {
 
   // bevy_ui
   Node: 'bevy_ui::ui_node::Node',
-  // Text: 'bevy_ui::widget::Text',
+  Button: 'bevy_ui::widget::button::Button',
+  UiImage: 'bevy_ui::ui_node::UiImage',
+  Label: 'bevy_ui::widget::label::Label',
+  Text: 'bevy_ui::widget::text::Text',
 
   // bevy_window
   Window: 'bevy_window::window::Window',

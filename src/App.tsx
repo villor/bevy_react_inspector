@@ -1,7 +1,7 @@
 import type { NodeApi, NodeRendererProps } from 'react-arborist';
 import type { EcsQueryEntity } from './hooks/useEcsQuery';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AppWindow, Box, ChevronDown, ChevronRight, Circle, Image, Lightbulb, MousePointer, Move3D, Square, SquareMousePointer, Type, Video } from 'lucide-react';
+import { AppWindow, Box, ChevronDown, ChevronRight, Circle, Image, Lightbulb, LucideImage, MousePointer, Move3D, Square, SquareDashed, SquareMousePointer, Type, Video } from 'lucide-react';
 import { Tree } from 'react-arborist';
 import { bevyTypes } from './bevyTypes';
 import { useComponentList } from './hooks/useComponentList';
@@ -74,7 +74,10 @@ function Inspector() {
         bevyTypes.PointLight,
         bevyTypes.SpotLight,
         bevyTypes.Sprite,
-        // bevyTypes.Text,
+        bevyTypes.Button,
+        bevyTypes.Label,
+        bevyTypes.UiImage,
+        bevyTypes.Text,
         // bevyTypes.Text2d,
         bevyTypes.Transform,
         bevyTypes.PrimaryWindow,
@@ -180,11 +183,18 @@ function EntityIcon({ entity, className }: { entity: TreeEntity; className?: str
     case 'SpotLight':
       return <Lightbulb color="#fcd34d" className={className} size={size} />;
 
+    case 'Label':
     case 'Text':
       return <Type className={className} size={size} />;
 
-    case 'Node':
+    case 'Button':
       return <SquareMousePointer className={className} size={size} />;
+
+    case 'UiImage':
+      return <LucideImage className={className} size={size} />;
+
+    case 'Node':
+      return <SquareDashed className={className} size={size} />;
 
     case 'Mesh2d':
       return <Square color="#a156d6" className={className} size={size} />;
@@ -212,8 +222,14 @@ function getEntityType(has?: Record<string, boolean> | null) {
   if (has) {
     if (has[bevyTypes.Camera])
       return 'Camera';
-    // if (has[bevyTypes.Text])
-    //  return 'Text';
+    if (has[bevyTypes.Button])
+      return 'Button';
+    if (has[bevyTypes.UiImage])
+      return 'UiImage';
+    if (has[bevyTypes.Label])
+      return 'Label';
+    if (has[bevyTypes.Text])
+      return 'Text';
     if (has[bevyTypes.Node])
       return 'Node';
     if (has[bevyTypes.Mesh2d])
