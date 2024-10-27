@@ -41,7 +41,7 @@ interface TreeEntity {
 }
 
 function getParent(entity: EcsQueryEntity) {
-  return (entity.components[bevyTypes.Parent]?.[0] ?? null) as number | null;
+  return (entity.components[bevyTypes.Parent] ?? null) as number | null;
 }
 
 function mapTreeEntity(allEntities: EcsQueryEntity[], e: EcsQueryEntity): TreeEntity {
